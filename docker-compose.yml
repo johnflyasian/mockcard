@@ -2,25 +2,18 @@ version: "3"
 
 services:
   image_recognition_plugin:
-    container_name: imagerecdl
+    container_name: imagerecdlmock
     image: imagerecdl
     #restart: always
     build: ./
     ports:
       - '5000:5000'
-    command: gunicorn -w 1 --threads 1 -b 0.0.0.0:5000 wsgi:flaskapp
+    command: gunicorn -w 1 --threads 4 -b 0.0.0.0:5000 wsgi:flaskapp
     environment:
       - VIDEO_URL=sample
       #- VIDEO_URL=http://172.16.18.240/weph/table970_card_720.flv
       - OPENVINOMODEL_XML=./app/model/runs/best.xml
-    volumes:
+    #volumes:
       # setting the volume will prevent re-downloading of the examples and runs
-      - ./app/model/runs:/app/app/model/runs
-      - ./app/data/example:/app/app/data/example
-
-    #deploy:
-    #  resources:
-    #    limits:
-    #      cpus: '4'
-    #      memory: 8g
-
+      #- ./app/model/runs:/app/app/model/runs
+      #- ./app/data/example:/app/app/data/example
